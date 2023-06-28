@@ -43,8 +43,7 @@ void imprimir (int n, int Vector[]){ //funcion "imprimir" (muestra los numeros u
            	 printf("\n");
 }
 //si alguno de los numeros ingresados tiene mas de 5 caracteres se amontona al anterior numero ya que "%5d" da un lugar de 5 caracteres, se arreglaria poniendo un %c, 32
-//las funciones estan antes del main en el cual se usa lo cual puede generar errores
-//ademas no hay verificacion, por lo que si ingresas una letra se bugea todo
+//no hay verificacion de datos
 
 //4) Decir que devuelve el siguiente programa, mencionar si hay algo extraño en el mismo y comentar cada instrucción.
 //el programa pide 5 numeros y los devuelve ordenados de mayor a menor, en vertical y horizontal
@@ -87,10 +86,9 @@ void ordenar (int n, int Vector[]){ //funcion "ordenar" (ordena los numeros del 
            	           aux=Vector[i]; //guarda el valor de "vector[i]" en "aux"
            	           Vector[i]=Vector[j]; //guarda el valor "vector[j]" en "vector[i]"
            	           Vector[j]=aux; //guarda el valor de aux en "vector[j]" (basicamente intercambio el valor de "vector[i]" a por el de "vector[j]")
-           	        }   //se podria usar una comparacion de i-1 en vez de j
-           	        	//las funciones estan antes del main en el cual se usa lo cual puede generar errores
+           	        }   //se podria usando if ((vector+j)>(vector+j+1))
            	        	//si alguno de los numeros ingresados tiene mas de 5 caracteres se amontona al anterior numero ya que "%5d" da un lugar de 5 caracteres, se arreglaria poniendo un %c, 32
-						//ademas no hay verificacion, por lo que si ingresas una letra se bugea
+						//no hay verificacion de datos
  	      	}
            	}
            	 printf("\n");
@@ -143,10 +141,12 @@ void multiplicar (int A[N][N], int B[N][N], int C[N][N], int m, int n, int p) {
            	for(i=0; i< m; i++) 
                            	for(k=0; k< p; k++)
                                            	C[i][k]=0; //se "crea" la matriz C llenandola de 0, esta tiene la cantidad de filas de A y la cantidad de Columnas de B
-  
+  //"lo extraño" es que no es necesario llenar la matriz C de 0, se podria poner directamente los resultados
                            	for (i=0; i< m; i++)
                                            	for (j=0; j< n; j++)
                                                           	 for (k=0; k< p; k++)
-                                                                          	 C[i][k] = C[i][k] + A[i][j]*B[j][k]; //se multiplica la matriz A por B y se guarda en C
+                                                                          	 C[i][k] = C[i][k] + A[i][j]*B[j][k]; //se multiplica la matriz A por B y se guarda en C (se tiene la cantidad de columnas de A y la cantidad de filas de B)
+	//tampoco es necesario sumarce C a la multiplicacion de matrices, ya que solo estariamos sumando 0
+
 }
 
