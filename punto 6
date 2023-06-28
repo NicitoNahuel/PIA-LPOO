@@ -1,0 +1,189 @@
+//Realizar un programa que tenga las siguientes funciones sobre matrices carga, escritura, suma, multiplicación entre matrices, determinante, transpuesta.
+//Realizar un menú acorde al mismo (que sea recurrente y me permita realizar otras acciones)
+#define N 10
+#include <stdio.h>
+bool multiplicacion=false;
+int filas, columnas, columnasB, i, j, o, p, k, l, B;
+void cargar_matriz(int A[N][N], int i, int j);
+void mostrar_matriz(int A[N][N], int i, int j);
+void sumar_matriz(int A[N][N], int B[N][N], int C[N][N], int i, int j);
+void multiplicar_matriz (int A[N][N], int B[N][N], int C[N][N], int i, int j, int k);
+void determinante (int A[N][N]);
+void traspuesta(int tras[N][N]);
+main (){
+	int opcion;
+	int A[N][N], B[N][N], C[N][N], tras[N][N];
+	bool cargada=false;
+	
+	while (opcion!=10){	
+	printf (" \n que desea hacer? \n "); 
+	printf (" \n 1) Ingresar matrices \n 2) Mostrar las matrices \n 3) sumar las matrices \n 4) multiplicar las matrices \n 5) ver la determinante \n 6) ver la transpuesta \n 10 para cerrar el programa \n que opcion elige? ");
+	//pregunta que accion realizar
+	scanf ("%d", &opcion);
+	
+	if (cargada==false && opcion!=1 || opcion==10 ) //si quiere hacer algun ejercicio sin matrices cargadas le hace cargar la matriz
+	{
+	printf ("no hay matrices cargadas para realizar esta accion \n porfavor cargue las matrices: \n");
+	opcion=1;
+	}
+	
+	switch (opcion){
+		case 1: { //ingresar una matriz
+			printf ("\n cuantas columnas tiene la matriz? ");
+			scanf ("%d", &columnas);
+			printf ("\n cuantas filas tiene la matriz? ");
+			scanf ("%d", &filas);
+			cargar_matriz(A, columnas, filas);
+			cargada=true;
+			break;
+		}
+		
+		case 2: {
+			char cual;
+			do{
+			printf ("que matriz quiere ver?");
+			scanf ("%c", &cual);
+			}while (cual!='A' && cual!='B');
+			if (cual=='A')
+			{mostrar_matriz(A, columnas, filas);}
+			if (cual=='B')
+			{mostrar_matriz(B, columnas, filas);}
+			break;
+		}
+		
+		case 3: {
+			printf ("\n para poder sumar matrices ambas deben tener el mismo tamaño");
+			sumar_matriz(A,B,C,i,j);
+			printf ("\n el resultado de la suma de: ");
+			mostrar_matriz (A, columnas, filas);
+			printf (" + ");
+			mostrar_matriz (B, columnas, filas);
+			printf (" = ");
+			mostrar_matriz (C, columnas, filas);
+			break;
+		}
+		
+		case 4: {
+			printf ("\n para poder multiplicar matrices, la matriz B debe tener la misma cantidad de filas que columnas tenga la matriz A");
+			multiplicar_matriz(A,B,C, columnas, filas, columnasB);
+			printf ("\n el resultado de la multiplicacion es: \n");
+			mostrar_matriz (A, columnas, filas);
+			printf ("\n \t * \n");
+			mostrar_matriz (B, columnasB, filas);
+			printf ("\n \t = \n");
+			mostrar_matriz (C, columnasB, filas);
+			break;
+		}
+		
+		case 5: {
+			int deter;
+			printf ("\n para hacer la determinante la matriz tiene que ser de 3x3");
+			determinante(A);
+			printf ("\n la determinante de la raiz: \n");
+			mostrar_matriz (A, filas, columnas);
+			printf ("\n y su determinante es: %d", deter);
+			break;
+		}
+		
+		case 6: {
+			printf ("\n la traspuesta de una matriz es la misma matriz pero invirtiendo las filas con las columnas \n");
+			traspuesta(A);
+			mostrar_matriz(A, columnas, filas);
+			break;
+		}
+		return 0;
+		} 
+	};
+
+}
+void cargar_matriz(int A[N][N], int i, int j) { //funcion que guarda una matriz 
+ int temp;
+ if (multiplicacion==true)//si es una multiplicacion guarda el valor orginal de "columnas" para poder declarar la matriz B
+ {
+ 	temp=columnas;
+ 	columnas=columnasB;
+ }
+
+ for (i=0; i<filas; i++)  
+ {
+    for (j=0; j<columnas; j++)  
+		{
+		printf("\n Ingresa el numero [%d][%d]: ", i+1, j+1);  //pide todos los datos de la matriz 
+	    scanf("%d", &A[i][j]);
+	    }
+ }
+ if (multiplicacion==true){columnas=temp;} //devuelve columnas a su valor original
+}
+
+void mostrar_matriz(int A[N][N], int filas, int columnas) //funcion mostrar para imprimir la matriz
+{
+ int i, j;
+ for (i=0; i< filas; i++)  
+ {
+		for (j=0; j<columnas; j++)   
+		{
+      	printf("[%d]", A[i][j]); //Imprime todos los elementos de la matriz
+        }
+    printf ("\n");
+ }
+}
+
+void sumar_matriz (int A[N][N], int B[N][N], int C[N][N], int i, int j){ //para poder sumar matrices se necesitan 2 matrices del mismo tamaño
+printf ("\n ingrese la matriz B");
+cargar_matriz(B, columnas, filas); //pide la matriz B para poder sumarla a la matriz A
+for (i=0; i<columnas; i++)
+{
+	for (j=0; j<filas; j++)
+	{
+		C[i][j]=A[i][j]+B[i][j];
+	}
+}
+}
+
+void multiplicar_matriz (int A[N][N], int B[N][N], int C[N][N], int i, int j, int k) {//k es la cantidad de columnas de la matriz B
+bool multiplicacion=true;
+printf ("cuantas columnas tiene la matriz B? "); //pregunta cuantas columnas tiene B
+scanf ("%d", &columnasB);
+cargar_matriz(B, columnasB, filas); //carga B
+	for (i=0; i<columnas; i++)
+	{
+		for (j=0; j<filas; j++)
+		{
+			for (k=0; k<columnasB; k++)
+			{
+				C[i][k]=A[i][j]*B[i][k]; //hace la multiplicacion y lo guarda en c
+			}
+		}
+	}
+}
+
+void determinante (int A[N][N]) {//la diagonal solo se puede hacer en matrices 3 x 3
+int q, w, e, deter;
+if (columnas!=3 || filas!=3)
+{
+columnas=3;
+filas=3;
+cargar_matriz (A, columnas, filas);
+}
+q=A[1][1]*A[2][2]*A[3][3]; //se hace la multiplicacion de las 3 diagonales
+w=A[2][1]*A[3][2]*A[1][3];
+e=A[3][1]*A[1][2]*A[2][3];
+deter=q+w+e; //se suman
+q=A[1][3]*A[2][2]*A[3][1]; // y se le resta la multiplicacion de las otras 3 diagonales
+w=A[2][3]*A[3][2]*A[1][1];
+e=A[3][3]*A[1][2]*A[2][1];
+deter=deter-q-w-e;
+}
+
+void traspuesta(int A[N][N]){ //la traspuesta es invertir las filas por las columnas
+//es lo mismo que la funcion "mostrar" pero cambiando A[i][j] por A[j][i]
+	int aux;
+
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			aux = A[i][j]; //guarda los valores de la matriz
+			A[i][j] = A[j][i]; //invierte las filas con las columnas
+			A[j][i] = aux; //guarda denuevo los valores con las filas y columnas ya invertidas
+		}
+	}
+}
