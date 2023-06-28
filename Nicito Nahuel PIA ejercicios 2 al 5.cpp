@@ -108,7 +108,7 @@ int main ()  { //main
  int A[N][N], B[N][N], C[N][N];
            	printf("\n Datos de la Matriz A: \n"); 
 printf("Filas: ");                           	scanf("%d", &m); 
-           	printf("Columnas: "); 	scanf("%d", &n);           //pregunta el tamaño de la matriz A (esto se podria hacer dentro de la funcion leer matriz)
+           	printf("Columnas: "); 	scanf("%d", &n);           //pregunta el tamaño de la matriz A 
 leer_matriz(A, m, n); 
            	printf("\n Datos de la Matriz B: \n");            //pregunta los datos de la matriz B
 printf("Columnas: ");	          	scanf("%d", &p);   //pregunta solo las columnas porque para poder multiplicar matrices: la cantidad de columnas de A deben ser igual a la cantidad de filas de B
